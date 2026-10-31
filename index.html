@@ -51,11 +51,8 @@
         }
 
         .controls-wrapper { background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-bottom: 40px; }
-        .search-box { width: 100%; padding: 14px 20px; background: #090d16; border: 1px solid var(--border); border-radius: 10px; color: white; font-size: 16px; margin-bottom: 15px; outline: none; }
-        
-        .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-        .tab-btn { background: #090d16; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; }
-        .tab-btn.active, .tab-btn:hover { background: var(--accent-gradient); color: #090d16; border-color: transparent; font-weight: 600; }
+        .search-box { width: 100%; padding: 14px 20px; background: #090d16; border: 1px solid var(--border); border-radius: 10px; color: white; font-size: 16px; outline: none; }
+        .search-box:focus { border-color: var(--accent); }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
@@ -69,7 +66,6 @@
         footer .brand { font-weight: bold; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 
-    <!-- INLINE FIXED SCRIPT ENGINE -->
     <script>
         function generateCustomPrompt() {
             var role = document.getElementById('roleInput').value;
@@ -85,21 +81,23 @@
             navigator.clipboard.writeText(text).then(function() {
                 alert("Prompt copied to clipboard successfully! 🚀");
             }).catch(function(err) {
-                alert("Error copying text: " + err);
+                alert("Error: " + err);
             });
         }
 
+        // UPDATED LIVE SEARCH FUNCTION
         function filterSystem() {
-            var search = document.getElementById('mainSearch').value.toLowerCase();
-            var cards = document.querySelectorAll('.card');
-            cards.forEach(function(card) {
-                var text = card.innerText.toLowerCase();
-                if (text.includes(search)) {
-                    card.style.display = "";
+            var input = document.getElementById('mainSearch').value.toLowerCase();
+            var cards = document.getElementsByClassName('card');
+
+            for (var i = 0; i < cards.length; i++) {
+                var cardText = cards[i].innerText.toLowerCase();
+                if (cardText.includes(input)) {
+                    cards[i].style.display = ""; // Show card
                 } else {
-                    card.style.display = "none";
+                    cards[i].style.display = "none"; // Hide card
                 }
-            });
+            }
         }
     </script>
 </head>
@@ -145,10 +143,10 @@
 
         <!-- SEARCH BAR -->
         <div class="controls-wrapper">
-            <input type="text" id="mainSearch" class="search-box" placeholder="Search prompts..." onkeyup="filterSystem()">
+            <input type="text" id="mainSearch" class="search-box" placeholder="Search prompts (e.g., SEO, Architecture)..." onkeyup="filterSystem()">
         </div>
 
-        <!-- STATIONARY FEED -->
+        <!-- LIVE CARDS FEED -->
         <div class="grid">
             <div class="card">
                 <div class="card-header"><span class="tag">Text AI / Copy</span></div>
