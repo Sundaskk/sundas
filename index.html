@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Hub & Directory Pro</title>
+    <title>AI Prompt Hub Pro</title>
     <style>
         :root {
             --bg-dark: #090d16;
@@ -17,7 +17,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
             padding: 20px;
@@ -25,8 +25,7 @@
         }
 
         .container { max-width: 1200px; margin: 0 auto; }
-        
-        header { text-align: center; padding: 60px 20px 40px; }
+        header { text-align: center; padding: 40px 20px 20px; }
         header h1 { 
             font-size: 2.5rem; 
             background: var(--accent-gradient); 
@@ -35,162 +34,144 @@
             margin-bottom: 10px;
         }
 
-        /* SEARCH & FILTER CONTROLS */
-        .controls-wrapper {
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .search-box {
-            width: 100%; padding: 14px 20px;
-            background: #090d16; border: 1px solid var(--border);
-            border-radius: 10px; color: white; font-size: 16px;
-            margin-bottom: 15px; outline: none; transition: 0.3s;
-        }
-        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
-        
-        .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-        .tab-btn {
-            background: #090d16; border: 1px solid var(--border);
-            color: var(--text-muted); padding: 8px 16px;
-            border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: 500;
-        }
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--accent-gradient); color: #090d16; border-color: transparent; font-weight: 600;
-        }
+        .top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px; padding: 25px; }
+        .panel h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 15px; }
 
-        /* INTERACTIVE GENERATOR TOOL */
-        .generator-panel {
-            background: var(--panel-bg); border: 1px solid var(--border);
-            border-radius: 16px; padding: 25px; margin-bottom: 40px;
-        }
-        .gen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0; }
-        .gen-group label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 5px; }
-        .gen-group select, .gen-group input {
+        .gen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .gen-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+        .gen-group select, .gen-group input, .gen-group textarea {
             width: 100%; padding: 10px; background: #090d16; border: 1px solid var(--border);
-            border-radius: 8px; color: white; outline: none;
+            border-radius: 8px; color: white; outline: none; font-size: 14px;
         }
         .output-box {
-            background: #090d16; border: 1px solid var(--border); padding: 15px;
-            border-radius: 8px; min-height: 60px; font-family: monospace; font-size: 14px;
-            margin-top: 15px; position: relative; word-break: break-word;
+            background: #090d16; border: 1px solid var(--border); padding: 12px;
+            border-radius: 8px; min-height: 80px; font-family: monospace; font-size: 13px;
+            margin-top: 15px; word-break: break-word; color: #cbd5e1;
         }
 
-        /* GRID SYSTEM */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-        .card {
-            background: var(--panel-bg); border: 1px solid var(--border);
-            border-radius: 14px; padding: 20px; display: flex; flex-direction: column;
-            justify-content: space-between; position: relative; transition: 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .controls-wrapper { background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-bottom: 40px; }
+        .search-box { width: 100%; padding: 14px 20px; background: #090d16; border: 1px solid var(--border); border-radius: 10px; color: white; font-size: 16px; margin-bottom: 15px; outline: none; }
         
+        .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tab-btn { background: #090d16; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; }
+        .tab-btn.active, .tab-btn:hover { background: var(--accent-gradient); color: #090d16; border-color: transparent; font-weight: 600; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
         .card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
         .tag { background: #1e293b; color: var(--accent); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .fav-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; }
-        .fav-btn.active { color: #ef4444; }
+        
+        .prompt-text { background: #090d16; padding: 12px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--accent); margin: 15px 0; color: #cbd5e1; }
+        .action-btn { background: var(--accent-gradient); color: #090d16; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; }
 
-        .prompt-text {
-            background: #090d16; padding: 12px; border-radius: 8px;
-            font-size: 14px; border-left: 3px solid var(--accent); margin: 15px 0;
-            color: #cbd5e1; max-height: 120px; overflow-y: auto;
-        }
-
-        .action-btn {
-            background: var(--accent-gradient); color: #090d16;
-            border: none; padding: 10px; border-radius: 8px; font-weight: bold;
-            cursor: pointer; width: 100%; text-align: center; text-decoration: none; transition: 0.2s;
-        }
-        .action-btn:hover { opacity: 0.9; transform: scale(1.02); }
-        .btn-secondary { background: #1e293b; color: white; border: 1px solid var(--border); }
-        .btn-secondary:hover { background: #334155; }
+        footer { text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 14px; }
+        footer .brand { font-weight: bold; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
+
+    <!-- INLINE FIXED SCRIPT ENGINE -->
+    <script>
+        function generateCustomPrompt() {
+            var role = document.getElementById('roleInput').value;
+            var tone = document.getElementById('toneInput').value;
+            var topic = document.getElementById('topicInput').value || 'SaaS apps';
+            
+            var blueprint = "Act as an " + role + ". Analyze and craft complete content strategy around " + topic + ". Provide your output parameters strictly in a " + tone + " tone. Structure the content logically with clear headings.";
+            document.getElementById('generatedOutput').innerText = blueprint;
+        }
+
+        function copyText(id) {
+            var text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Prompt copied to clipboard successfully! 🚀");
+            }).catch(function(err) {
+                alert("Error copying text: " + err);
+            });
+        }
+
+        function filterSystem() {
+            var search = document.getElementById('mainSearch').value.toLowerCase();
+            var cards = document.querySelectorAll('.card');
+            cards.forEach(function(card) {
+                var text = card.innerText.toLowerCase();
+                if (text.includes(search)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 
     <div class="container">
         <header>
             <h1>AI Prompt Hub Pro</h1>
-            <p>Advanced system to craft, discover, and organize elite AI prompts.</p>
+            <p>The Portal to Blueprint, Discover, and Share Advanced Prompts.</p>
         </header>
 
-        <!-- 🛠️ ADVANCE SMART GENERATOR -->
-        <div class="generator-panel">
-            <h2 style="color: var(--accent); font-size: 1.5rem;">⚡ Custom Prompt Architect</h2>
-            <div class="gen-grid">
-                <div class="gen-group">
-                    <label>AI Role</label>
-                    <select id="roleInput" onchange="generateCustomPrompt()">
-                        <option value="Expert Copywriter">Expert Copywriter</option>
-                        <option value="Senior Code Auditor">Senior Code Auditor</option>
-                        <option value="Full-Stack UX Designer">Full-Stack UX Designer</option>
-                        <option value="Growth Marketing Strategist">Marketing Strategist</option>
-                    </select>
+        <div class="top-grid">
+            <!-- ARCHITECT TOOL -->
+            <div class="panel">
+                <h2>⚡ Custom Prompt Architect</h2>
+                <div class="gen-grid">
+                    <div class="gen-group">
+                        <label>AI Role</label>
+                        <select id="roleInput" onchange="generateCustomPrompt()">
+                            <option value="Expert Copywriter">Expert Copywriter</option>
+                            <option value="Senior Code Auditor">Code Auditor</option>
+                            <option value="UX Designer">UX Designer</option>
+                            <option value="Growth Marketing Strategist">Marketing Strategist</option>
+                        </select>
+                    </div>
+                    <div class="gen-group">
+                        <label>Output Tone</label>
+                        <select id="toneInput" onchange="generateCustomPrompt()">
+                            <option value="Professional & authoritative">Professional</option>
+                            <option value="Casual & engaging">Casual/Witty</option>
+                            <option value="Highly technical & granular">Technical</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="gen-group">
                     <label>Your Topic</label>
                     <input type="text" id="topicInput" value="Crypto trading apps" oninput="generateCustomPrompt()">
                 </div>
-                <div class="gen-group">
-                    <label>Output Tone</label>
-                    <select id="toneInput" onchange="generateCustomPrompt()">
-                        <option value="Professional & authoritative">Professional</option>
-                        <option value="Casual & engaging">Casual/Witty</option>
-                        <option value="Highly technical & granular">Technical</option>
-                    </select>
-                </div>
+                <div class="output-box" id="generatedOutput">Act as an Expert Copywriter. Analyze and craft complete content strategy around Crypto trading apps. Provide your output parameters strictly in a Professional & authoritative tone. Structure the content logically with clear headings.</div>
+                <button class="action-btn" style="margin-top: 15px;" onclick="copyText('generatedOutput')">Copy Custom Prompt</button>
             </div>
-            <div class="output-box" id="generatedOutput">Act as an Expert Copywriter. Analyze and craft content around Crypto trading apps. Provide details in a Professional & authoritative tone...</div>
-            <button class="action-btn" style="margin-top: 15px;" onclick="copyText('generatedOutput')">Copy Custom Prompt</button>
         </div>
 
-        <!-- 🔍 SEARCH & FILTER CONTROLS -->
+        <!-- SEARCH BAR -->
         <div class="controls-wrapper">
-            <input type="text" id="mainSearch" class="search-box" placeholder="Search across prompts, directory, or tags..." onkeyup="filterSystem()">
-            <div class="filter-tabs">
-                <button class="tab-btn active" onclick="filterCategory('all', this)">All Items</button>
-                <button class="tab-btn" onclick="filterCategory('text', this)">Text Prompts</button>
-                <button class="tab-btn" onclick="filterCategory('image', this)">Image Arts</button>
-                <button class="tab-btn" onclick="filterCategory('coding', this)">Coding</button>
-                <button class="tab-btn" onclick="filterCategory('directory', this)">AI Directory</button>
-                <button class="tab-btn" onclick="showFavorites(this)">❤️ Saved</button>
-            </div>
+            <input type="text" id="mainSearch" class="search-box" placeholder="Search prompts..." onkeyup="filterSystem()">
         </div>
 
-        <!-- 🗂️ MAIN MIXED DIRECTORY GRID -->
-        <div class="grid" id="mainGrid">
-            
-            <!-- Item 1 -->
-            <div class="card" data-category="text" data-id="p1">
-                <div class="card-header">
-                    <span class="tag">Text AI / Copy</span>
-                    <button class="fav-btn" onclick="toggleFav('p1')">♥</button>
-                </div>
+        <!-- STATIONARY FEED -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-header"><span class="tag">Text AI / Copy</span></div>
                 <h3>Advanced SEO Content Engine</h3>
                 <p>Generates high-ranking web copy based on modern semantic SEO algorithms.</p>
-                <div class="prompt-text" id="text_p1">"Act as a master SEO content strategist. Build an architecture map and write content for [Topic]. Integrate Latent Semantic Indexing terms smoothly."</div>
-                <button class="action-btn" onclick="copyText('text_p1')">Copy Prompt</button>
+                <div class="prompt-text" id="text_1">Act as a master SEO content strategist. Build an architecture map and write content for [Topic]. Integrate Latent Semantic Indexing terms smoothly.</div>
+                <button class="action-btn" onclick="copyText('text_1')">Copy Prompt</button>
             </div>
 
-            <!-- Item 2 -->
-            <div class="card" data-category="image" data-id="p2">
-                <div class="card-header">
-                    <span class="tag">Image AI / Art</span>
-                    <button class="fav-btn" onclick="toggleFav('p2')">♥</button>
-                </div>
+            <div class="card">
+                <div class="card-header"><span class="tag">Image AI / Art</span></div>
                 <h3>Photorealistic Architecture</h3>
                 <p>Creates stunning render blueprints for commercial futuristic buildings.</p>
-                <div class="prompt-text" id="text_p2">"Architectural close-up photography of eco-friendly brutalist skyscraper, glass facade covered in cascading vines, golden hour, shot on 35mm lens --v 6.0"</div>
-                <button class="action-btn" onclick="copyText('text_p2')">Copy Prompt</button>
+                <div class="prompt-text" id="text_2">Architectural close-up photography of eco-friendly brutalist skyscraper, glass facade covered in cascading vines, golden hour, shot on 35mm lens --v 6.0</div>
+                <button class="action-btn" onclick="copyText('text_2')">Copy Prompt</button>
             </div>
+        </div>
 
-            <!-- Item 3 -->
-            <div class="card" data-category="coding" data-id="p3">
-                <div class="card-header">
-                    <span class="tag">Coding / Security</span>
-                    <button class="fav-btn" onclick="toggleFav('p3')">♥</button>
-                </div>
-                <h3>API Security Optimizer</h3>
+        <footer>
+            <p>© 2026 AI Prompt Hub. All rights reserved.</p>
+            <p style="margin-top: 5px;">Designed & Developed with ♥ by <span class="brand">Hasn</span></p>
+        </footer>
+    </div>
+
+</body>
+</html>
