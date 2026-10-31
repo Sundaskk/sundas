@@ -40,7 +40,7 @@
 
         .gen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .gen-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
-        .gen-group select, .gen-group input, .gen-group textarea {
+        .gen-group select, .gen-group input {
             width: 100%; padding: 10px; background: #090d16; border: 1px solid var(--border);
             border-radius: 8px; color: white; outline: none; font-size: 14px;
         }
@@ -59,54 +59,25 @@
         .card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
         .tag { background: #1e293b; color: var(--accent); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         
-        .prompt-text { background: #090d16; padding: 12px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--accent); margin: 15px 0; color: #cbd5e1; }
+        .prompt-text { background: #090d16; padding: 12px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--accent); margin: 15px 0; color: #cbd5e1; font-family: monospace; }
         .action-btn { background: var(--accent-gradient); color: #090d16; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; }
+
+        .legal-box { display: none; background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; }
+        .legal-box h3 { color: var(--accent); margin-bottom: 10px; }
 
         footer { text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 14px; }
         footer .brand { font-weight: bold; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .footer-links { margin-bottom: 15px; }
+        .footer-links a { color: var(--accent); text-decoration: none; margin: 0 10px; cursor: pointer; font-weight: 500; }
+        .footer-links a:hover { text-decoration: underline; }
     </style>
-
-    <script>
-        function generateCustomPrompt() {
-            var role = document.getElementById('roleInput').value;
-            var tone = document.getElementById('toneInput').value;
-            var topic = document.getElementById('topicInput').value || 'SaaS apps';
-            
-            var blueprint = "Act as an " + role + ". Analyze and craft complete content strategy around " + topic + ". Provide your output parameters strictly in a " + tone + " tone. Structure the content logically with clear headings.";
-            document.getElementById('generatedOutput').innerText = blueprint;
-        }
-
-        function copyText(id) {
-            var text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(function() {
-                alert("Prompt copied to clipboard successfully! 🚀");
-            }).catch(function(err) {
-                alert("Error: " + err);
-            });
-        }
-
-        // ULTRA RELIABLE FIXED SEARCH
-        function filterSystem() {
-            var input = document.getElementById('mainSearch').value.toLowerCase();
-            var cards = document.querySelectorAll('.card');
-
-            cards.forEach(function(card) {
-                var cardText = card.innerText.toLowerCase();
-                if (cardText.indexOf(input) > -1) {
-                    card.style.display = ""; 
-                } else {
-                    card.style.display = "none"; 
-                }
-            });
-        }
-    </script>
 </head>
 <body>
 
     <div class="container">
         <header>
             <h1>AI Prompt Hub Pro</h1>
-            <p>The Portal to Blueprint, Discover, and Share Advanced Prompts.</p>
+            <p>The Advanced Directory to Blueprint, Discover, and Share Curated AI Prompts.</p>
         </header>
 
         <div class="top-grid">
@@ -143,13 +114,13 @@
 
         <!-- SEARCH BAR -->
         <div class="controls-wrapper">
-            <input type="text" id="mainSearch" class="search-box" placeholder="Search prompts (e.g., SEO, Architecture)..." onkeyup="filterSystem()">
+            <input type="text" id="mainSearch" class="search-box" placeholder="Search prompts (e.g., SEO, Art, Code)..." onkeyup="filterSystem()">
         </div>
 
         <!-- LIVE CARDS FEED -->
         <div class="grid">
             <div class="card">
-                <div class="card-header"><span class="tag">Text AI / Copy</span></div>
+                <div class="card-header"><span class="tag">Text AI / SEO</span></div>
                 <h3>Advanced SEO Content Engine</h3>
                 <p>Generates high-ranking web copy based on modern semantic SEO algorithms.</p>
                 <div class="prompt-text" id="text_1">Act as a master SEO content strategist. Build an architecture map and write content for [Topic]. Integrate Latent Semantic Indexing terms smoothly.</div>
@@ -157,19 +128,40 @@
             </div>
 
             <div class="card">
+                <div class="card-header"><span class="tag">Text AI / Copy</span></div>
+                <h3>AIDA Conversion Copywriting</h3>
+                <p>Hooks users instantly using the Attention-Interest-Desire-Action matrix.</p>
+                <div class="prompt-text" id="text_2">Act as an elite conversion copywriter. Analyze [Product/Service] and generate 5 highly compelling hooks using the Attention-Interest-Desire-Action matrix framework.</div>
+                <button class="action-btn" onclick="copyText('text_2')">Copy Prompt</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="tag">Text AI / Social</span></div>
+                <h3>Social Media Matrix Planner</h3>
+                <p>Builds a complete 30-day topical organic content calendar instantly.</p>
+                <div class="prompt-text" id="text_3">Create a 30-day content calendar for [Niche/Platform]. Include specific content pillars, content goals, optimized captions, and hyper-targeted tags.</div>
+                <button class="action-btn" onclick="copyText('text_3')">Copy Prompt</button>
+            </div>
+
+            <div class="card">
                 <div class="card-header"><span class="tag">Image AI / Art</span></div>
                 <h3>Photorealistic Architecture</h3>
-                <p>Creates stunning render blueprints for commercial futuristic buildings.</p>
-                <div class="prompt-text" id="text_2">Architectural close-up photography of eco-friendly brutalist skyscraper, glass facade covered in cascading vines, golden hour, shot on 35mm lens --v 6.0</div>
-                <button class="action-btn" onclick="copyText('text_2')">Copy Prompt</button>
+                <p>Creates stunning render blueprints for commercial buildings.</p>
+                <div class="prompt-text" id="text_4">Architectural close-up photography of eco-friendly brutalist skyscraper, glass facade covered in cascading vines, golden hour, shot on 35mm lens --v 6.0</div>
+                <button class="action-btn" onclick="copyText('text_4')">Copy Prompt</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="tag">Coding / Security</span></div>
+                <h3>API Security Optimizer Engine</h3>
+                <p>Scans backend logic to secure endpoints from external leak bugs.</p>
+                <div class="prompt-text" id="text_5">Inspect this Node.js/Python endpoint code infrastructure for potential cross-site scripting (XSS) vulnerabilities or authentication token bypass bugs: [Insert Code]</div>
+                <button class="action-btn" onclick="copyText('text_5')">Copy Prompt</button>
             </div>
         </div>
 
-        <footer>
-            <p>© 2026 AI Prompt Hub. All rights reserved.</p>
-            <p style="margin-top: 5px;">Designed & Developed with ♥ by <span class="brand">Hasn</span></p>
-        </footer>
-    </div>
+        <div class="legal-box" id="legalPanel">
+            <h3 id="legalTitle">Legal Notice</h3>
+            <p id="legalText">Content details will display here seamlessly.</p>
+        </div>
 
-</body>
-</html>
