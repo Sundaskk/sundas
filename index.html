@@ -85,19 +85,19 @@
             });
         }
 
-        // UPDATED LIVE SEARCH FUNCTION
+        // ULTRA RELIABLE FIXED SEARCH
         function filterSystem() {
             var input = document.getElementById('mainSearch').value.toLowerCase();
-            var cards = document.getElementsByClassName('card');
+            var cards = document.querySelectorAll('.card');
 
-            for (var i = 0; i < cards.length; i++) {
-                var cardText = cards[i].innerText.toLowerCase();
-                if (cardText.includes(input)) {
-                    cards[i].style.display = ""; // Show card
+            cards.forEach(function(card) {
+                var cardText = card.innerText.toLowerCase();
+                if (cardText.indexOf(input) > -1) {
+                    card.style.display = ""; 
                 } else {
-                    cards[i].style.display = "none"; // Hide card
+                    card.style.display = "none"; 
                 }
-            }
+            });
         }
     </script>
 </head>
